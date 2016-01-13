@@ -14,8 +14,26 @@ import codecs
 # Standard packages in Python 2/3 compatibility mode.
 from .compatibility import StringIO
 
+# java integration with clamp
+try:
+    from java.io import Serializable
+except ImportError:
+    class Serializable:
+        pass
+try:
+    from java.util.concurrent import Callable
+except ImportError:
+    class Callable:
+        pass
+try:
+    from clamp import clamp_base
+    XlsxWriterBase = clamp_base("org.python.modules")
+except ImportError:
+    class XlsxWriterBase(object):
+        pass
 
-class XMLwriter(object):
+
+class XMLwriter(XlsxWriterBase, Callable, Serializable):
     """
     Simple XML writer class.
 

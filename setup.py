@@ -6,6 +6,7 @@ try:
     from setuptools import setup, Command
 except ImportError:
     from distutils.core import setup, Command
+from clamp.commands import clamp_command
 
 if sys.version_info < (2, 5, 0):
     warn("The minimum Python version supported by XlsxWriter is 2.5.")
@@ -34,7 +35,10 @@ setup(
     url='https://github.com/jmcnamara/XlsxWriter',
     packages=['xlsxwriter'],
     scripts=['examples/vba_extract.py'],
-    cmdclass={'test': PyTest},
+    cmdclass={
+        'test': PyTest,
+        'install': clamp_command,
+    },
     license='BSD',
     description='A Python module for creating Excel XLSX files.',
     long_description=open('README.rst').read(),
@@ -51,4 +55,9 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
+    # clamping:
+    install_requires=["clamp"],
+    clamp={
+        "modules": ["xlsxwriter"]
+    },
 )
